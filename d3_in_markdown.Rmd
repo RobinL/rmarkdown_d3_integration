@@ -42,17 +42,18 @@ Then do one with a map.
 single_child <- function() {
   child <- list()
   child[["name"]] <- "a_child"
-  child[["value"]] <- 1
+  child[["value"]] <- runif(1)
   return(child)
 }
 
-create_children <- function() {
+create_children <- function(current_depth) {
   children <- list()
-  for (i in 1:4) {
-    if (runif(1) < 0.2)  {
+  
+  for (i in 1:(sample(1:7,1))) {
+    if (runif(1) < 0.7 & current_depth<4)  {
       children[[i]] <- list()
       children[[i]][["name"]] <- "a node"
-      children[[i]][["children"]] <- create_children()
+      children[[i]][["children"]] <- create_children(current_depth+1)
     } else {
       children[[i]] <- single_child()
     }
@@ -62,7 +63,7 @@ create_children <- function() {
 
 tree <- list()
 tree[["name"]] <- "head"
-tree[["children"]] <- create_children()
+tree[["children"]] <- create_children(1)
 
 
 # Make this into json
@@ -102,7 +103,7 @@ var color = d3.scaleMagma()
     .domain([-4, 4]);
 
 root = d3.hierarchy(data).sum( function(d) { 
-            return d.value ? 1 : 0;
+            return d.value ? d.value : 0;
         });
         
        
