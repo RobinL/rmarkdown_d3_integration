@@ -1,0 +1,15 @@
+<div id="q2" > </div>
+
+<script>
+  var svg = d3.select("#q2").append("svg").attr("height","500px").attr("width","100%")
+                ;
+
+var circle = svg.selectAll("circle")
+    .data([32, 57, 112, 293,500,600,700,800]);
+
+var circleEnter = circle.enter().append("circle");
+
+circleEnter.attr("cy", function(d,i) {return i*10+20});
+circleEnter.attr("cx", function(d, i) { return i * 100 + 30; });
+circleEnter.attr("r", function(d) { return Math.sqrt(d); });
+</script>
